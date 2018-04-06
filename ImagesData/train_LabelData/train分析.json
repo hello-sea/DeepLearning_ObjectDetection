@@ -1,0 +1,15 @@
+[
+    {"items": 
+        [
+            {"label_id": "0028", "bbox": [240, 198, 268, 222]}    
+        ], 
+        "image_id": "500_0Ak1_rpeQjUJL_nbKBYijb.jpg"
+    }, 
+    
+    {"items": 
+        [
+            {"label_id": "0028", "bbox": [49, 30, 117, 88]},{"label_id": "0030", "bbox": [463, 102, 517, 157]}
+        ], 
+        "image_id": "500_0kzV_rqaMeFtu_qgdDh4LB.jpg"
+    }
+]
