@@ -11,7 +11,6 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Convolutional Neural Network Estimator for MNIST, built with tf.layers."""
 
 import numpy as np
 import tensorflow as tf
@@ -117,39 +116,20 @@ def cnn_model_fn(features, labels, mode):
 
 
 def main(unused_argv):
-        # Load training and eval data
-        # mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-        #   mnist = tf.contrib.learn.datasets.load_dataset("mnist")
-        #   from tensorflow.examples.tutorials.mnist import input_data
-        #   mnist = input_data.read_data_sets("Controller/MNIST_data/", one_hot=True) #MNIST数据输入
-
-        #   train_data = mnist.train.images  # Returns np.array
-        #   train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
-        #   eval_data = mnist.test.images  # Returns np.array
-        #   eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
 
     train_data = np.array(pickle.load(open('Model/train_data.plk', 'rb')) )
     train_labels = np.array(pickle.load(open('Model/train_labels.plk', 'rb')) )
 
-    eval_data = np.array(pickle.load(open('Model/train_data.plk', 'rb')) )
-    eval_labels = np.array(pickle.load(open('Model/train_labels.plk', 'rb')) )
-
-    # eval_data = np.array(pickle.load(open('Model/eval_data.plk', 'rb')) )
-    # eval_labels = np.array(pickle.load(open('Model/eval_labels.plk', 'rb')) )
-
+    eval_data = np.array(pickle.load(open('Model/eval_data.plk', 'rb')) )
+    eval_labels = np.array(pickle.load(open('Model/eval_labels.plk', 'rb')) )
 
     # with tf.Session() as sess:
     #     train_data = tf.convert_to_tensor(train_data_np)
     #     eval_data = tf.convert_to_tensor(eval_data_np)
 
-    # print(train_data)
-    # print(train_labels)
-    # print(eval_data)
-    # print(eval_labels)cls
-
     # Create the Estimator
-    mnist_classifier = tf.estimator.Estimator(
-        # model_fn=cnn_model_fn, model_dir="mnist_convnet_model")
+    cnn_classifier = tf.estimator.Estimator(
+        # model_fn=cnn_model_fn, model_dir="cnn_convnet_model")
         model_fn=cnn_model_fn, model_dir="Model")
 
     # Set up logging for predictions
@@ -158,17 +138,29 @@ def main(unused_argv):
     logging_hook = tf.train.LoggingTensorHook(
         tensors=tensors_to_log, every_n_iter=50)
 
+
     # Train the model
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": train_data},
         y=train_labels,
-        batch_size=20,
+        batch_size=50,
         num_epochs=None,
         shuffle=True)
-    mnist_classifier.train(
+    cnn_classifier.train(
         input_fn=train_input_fn,
-        steps=20000,     # steps=20000,
+        steps=200,     # steps=20000,
         hooks=[logging_hook])
+
+    # 保存模型
+    cnn_classifier.export_savedmodel("Model/cnn_model.ckpt", train_input_fn)
+
+    '''
+    # 加载模型
+    saver = tf.train.Saver()  
+    
+    with tf.Session() as sess:  
+        saver.restore(sess, "./Model/cnn_model.ckpt") # 注意此处路径前添加"./"  
+    '''
 
     # Evaluate the model and print results
     eval_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -176,9 +168,12 @@ def main(unused_argv):
         y=eval_labels,
         num_epochs=1,
         shuffle=False) 
-    eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
+    eval_results = cnn_classifier.evaluate(input_fn=eval_input_fn)
     print(eval_results)
 
 
 if __name__ == "__main__":
+    
     tf.app.run()
+
+

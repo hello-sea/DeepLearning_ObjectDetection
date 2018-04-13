@@ -93,6 +93,7 @@ def myFastGFile(py_data):
             # print(standardization_image)
             # print(standardization_image.eval())
             resized = tf.reshape(standardization_image, [-1]) #最后一维代表通道数目，如果是rgb则为3 
+            # resized = tf.reshape(resized, [-1]) #最后一维代表通道数目，如果是rgb则为3 
 
             ## 链接     
             ## resized = tf.expand_dims(resized, 0) # 增加一个维度
@@ -109,69 +110,59 @@ def myFastGFile(py_data):
         plt.imshow(resized)
         plt.show()
         '''
+def saveData(py_data, filePath_data, filePath_labels):
+    pass
+    '''
+    with tf.Session() as sess:
+        train_data =tf.convert_to_tensor(np.array( trainData.data ) )
+    '''
+    data = np.array( py_data.data )
+    labels = py_data.labels
+
+    # import os
+    if os.path.exists(filePath_data): #删除文件，可使用以下两种方法。
+        os.remove(filePath_data)      #os.unlink(my_file)
+
+    if os.path.exists(filePath_labels): #删除文件，可使用以下两种方法。
+        os.remove(filePath_labels)      #os.unlink(my_file)
 
 
-if __name__ == "__main__":
-    print('目前系统的编码为：',sys.getdefaultencoding()) 
+    with open(filePath_data,'wb') as f:
+        pickle.dump(data, f)
 
+    with open(filePath_labels,'wb') as f:
+        pickle.dump(labels, f)
 
-    trainData = eachFile("../Data/logos_test") #注意：末尾不加/
+    print('\ndone!')
+
+def run(filePath_loadData, filePath_data, filePath_labels):
+
+    loadData = eachFile(filePath_loadData) #注意：末尾不加/
+    myFastGFile(loadData)  
+    saveData(loadData, filePath_data, filePath_labels)
+    
+    '''
+    trainData = eachFile("../Data/logos/train") #注意：末尾不加/
     # for i in range(0,len(data.data_fileName)):
     #     print(data.data_tpye[i])
     #     print(data.data_oneHot_labels[i])
 
     myFastGFile(trainData)  
+    saveData(trainData, 'Model/train_data.plk', 'Model/train_labels.plk')
+    
     # print(trainData.data[0].shape)
     # print(trainData.data[0])
+
     '''
-    with tf.Session() as sess:
-        train_data =tf.convert_to_tensor(np.array( trainData.data ) )
-    '''
-    train_data = np.array( trainData.data )
-    train_labels = trainData.labels
-
-    # import os
-    if os.path.exists('Model/train_data.plk'): #删除文件，可使用以下两种方法。
-        os.remove('Model/train_data.plk')      #os.unlink(my_file)
-    if os.path.exists('Model/train_labels.plk'): #删除文件，可使用以下两种方法。
-        os.remove('Model/train_labels.plk')      #os.unlink(my_file)
 
 
-    with open('Model/train_data.plk','wb') as f:
-        pickle.dump(train_data, f)
-    with open('Model/train_labels.plk','wb') as f:
-        pickle.dump(train_labels, f)
+if __name__ == "__main__":
+    print('目前系统的编码为：',sys.getdefaultencoding()) 
 
-    print('done!')
+    # run("../Data/logos_test", 'Model/test_data.plk', 'Model/test_labels.plk')
 
-    ''' ****************************************************************************************** '''
+    run("../Data/logos/train", 'Model/train_data.plk', 'Model/train_labels.plk')
+    #       #注意：末尾不加/
 
-    # evalData = eachFile("../Data/logos/eval") #注意：末尾不加/
-    # # for i in range(0,len(data.data_fileName)):
-    # #     print(data.data_tpye[i])
-    # #     print(data.data_oneHot_labels[i])
-
-    # myFastGFile(evalData)  
-    # # print(evalData.data[0].shape)
-    # # print(evalData.data[0])
-    # '''
-    # with tf.Session() as sess:
-    #     train_data =tf.convert_to_tensor(np.array( evalData.data ) )
-    # '''
-    # eval_data = np.array( evalData.data )
-    # eval_labels = evalData.labels
-
-    # if os.path.exists('Model/eval_data.plk'): #删除文件，可使用以下两种方法。
-    #     os.remove('Model/eval_data.plk')      #os.unlink(my_file)
-    # if os.path.exists('Model/eval_labels.plk'): #删除文件，可使用以下两种方法。
-    #     os.remove('Model/eval_labels.plk')      #os.unlink(my_file)
-
-
-    # with open('Model/eval_data.plk','wb') as f:
-    #     pickle.dump(eval_data, f)
-    # with open('Model/eval_labels.plk','wb') as f:
-    #     pickle.dump(eval_labels, f)
-
-    # print('done!')
-
-
+    run("../Data/logos/eval",  'Model/eval_data.plk', 'Model/eval_labels.plk')
+    #       #注意：末尾不加/
