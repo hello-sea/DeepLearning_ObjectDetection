@@ -1,10 +1,26 @@
-# coding:utf-8
+#  Copyright 2016 The TensorFlow Authors. All Rights Reserved.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 
 import numpy as np
 import tensorflow as tf
-import pickle as pickle # python pkl 文件读写
+import itertools
+# python pkl 文件读写
+import pickle as pickle
 
-# import myCNNs_model
+
+
+tf.logging.set_verbosity(tf.logging.INFO)
 
 
 def cnn_model_fn(features, labels, mode):
@@ -100,10 +116,9 @@ def cnn_model_fn(features, labels, mode):
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
 
-''' ***************************************************************** '''
-
-
 def main(unused_argv):
+    eval_data = np.array(pickle.load(open('Model/eval_data.plk', 'rb')) )
+    eval_labels = np.array(pickle.load(open('Model/eval_labels.plk', 'rb')) )
 
 
     # Create the Estimator
@@ -111,32 +126,47 @@ def main(unused_argv):
         # model_fn=cnn_model_fn, model_dir="cnn_convnet_model")
         model_fn=cnn_model_fn, model_dir="Model")
 
-    # Set up logging for predictions
-    # Log the values in the "Softmax" tensor with label "probabilities"
-    tensors_to_log = {"probabilities": "softmax_tensor"}
-    logging_hook = tf.train.LoggingTensorHook(
-        tensors=tensors_to_log, every_n_iter=50)
-
-    # 保存模型
-    cnn_classifier.export_savedmodel("Model/cnn_model.ckpt", train_input_fn)
-
-    
+    '''
     # 加载模型
-    saver = tf.train.Saver()
+    saver = tf.train.Saver()  
+    
     with tf.Session() as sess:  
         saver.restore(sess, "./Model/cnn_model.ckpt") # 注意此处路径前添加"./"  
+    '''
 
-        # Evaluate the model and print results
-        eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x={"x": eval_data},
-            y=eval_labels,
-            num_epochs=1,
-            shuffle=False) 
-        eval_results = cnn_classifier.evaluate(input_fn=eval_input_fn)
-        print(eval_results)
+    
+    # # Evaluate the model and print results
+    # eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+    #     x={"x": eval_data},
+    #     y=eval_labels,
+    #     num_epochs=1,
+    #     shuffle=False) 
+    # eval_results = cnn_classifier.evaluate(input_fn=eval_input_fn)
+    # print(eval_results)
+
+    # predict 预测
+    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": eval_data},
+        y=eval_labels,
+        num_epochs=1,
+        shuffle=False) 
+        
+    print("ok!")
+    
+    y = cnn_classifier.predict(
+        input_fn=eval_input_fn
+    )
+    
+
+    with tf.Session() as sess:
+        print(type(y))
+        # predictions = list(p["predictions"] for p in itertools.islice(y, 30))
+        # print("Predictions: {}".format(str(predictions)))
 
 
-if __name__ == "__mian__":
-    main()
+
+if __name__ == "__main__":
+    
+    tf.app.run()
 
 
