@@ -59,6 +59,10 @@ def mySelectivesearch(path):
         # distorted rects
         x, y, w, h = r['rect']
 
+        if h == 0 :
+            continue
+        if w == 0:
+            continue
         if h < 20 or w < 20:
             continue
         if w / h > 3 or h / w > 3:

@@ -11,7 +11,7 @@ tf.logging.set_verbosity(tf.logging.INFO)
 
 def main(unused_argv):
 
-    path = '../Data/train_LabelData/LabelData/500_0LmA_rVnydZ4z_CDcA8yqW.jpg'
+    path = '../Data/train_data/LabelData/500_0LmA_rVnydZ4z_CDcA8yqW.jpg'
     
     # path = '../Data/logo_30/logos/jeep.jpg'
 
