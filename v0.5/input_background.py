@@ -44,30 +44,30 @@ def eachFile(filepath):
 def myFastGFile(py_data):
     # 新建一个Session
     with tf.Session() as sess:
-        path = py_data.data_filePath[0]
-        # for path in py_data.data_filePath:
-        img, candidates = mySelectivesearch(path)
-        for x, y, w, h in candidates:
-            print(x, y, w, h)
-            img_data = img[y:y+h, x:x+w]
-            plt.imshow(img_data)
-            plt.show()
-        '''
-            img_data = img[x:x+w,y:y+h]
-            data = tf.convert_to_tensor(img_data) # np 转换为 tensor
-            # 改变图片尺寸            
-            resized = tf.image.resize_images(data, [28, 28], method=0)
-            # 设定 shape
-            resized = tf.reshape(resized, [28, 28, 3]) #最后一维代表通道数目，如果是rgb则为3 
-            # 标准化
-            standardization_image = tf.image.per_image_standardization(resized)#标准化
-            # 设定 shape
-            resized = tf.reshape(standardization_image, [-1]) #最后一维代表通道数目，如果是rgb则为3 
-            # 转为 np类型
-            py_data.data.append(resized.eval())
-            py_data.labels.append( 30 )
+        # path = py_data.data_filePath[0]
+        for path in py_data.data_filePath:
+            img, candidates = mySelectivesearch(path)
+            for x, y, w, h in candidates:
+                # print(x, y, w, h)
+                img_data = img[y:y+h, x:x+w]
+                # plt.imshow(img_data)
+                # plt.show()
 
-        
+                data = tf.convert_to_tensor(img_data) # np 转换为 tensor
+                # 改变图片尺寸            
+                resized = tf.image.resize_images(data, [28, 28], method=0)
+                # 设定 shape
+                resized = tf.reshape(resized, [28, 28, 3]) #最后一维代表通道数目，如果是rgb则为3 
+                # 标准化
+                standardization_image = tf.image.per_image_standardization(resized)#标准化
+                # 设定 shape
+                resized = tf.reshape(standardization_image, [-1]) #最后一维代表通道数目，如果是rgb则为3 
+                # resized = tf.reshape(resized, [-1]) #最后一维代表通道数目，如果是rgb则为3 
+                # 转为 np类型
+                py_data.data.append(resized.eval())
+                py_data.labels.append( 30 )
+
+        '''
         # #验证数据转换正确
         resized = tf.reshape(py_data.data[0], [28, 28, 3])
         resized = np.asarray(resized.eval(), dtype='uint8')        
@@ -103,7 +103,7 @@ def run(filePath_loadData, filePath_data, filePath_labels):
 
     loadData = eachFile(filePath_loadData) #注意：末尾不加/
     myFastGFile(loadData)  
-    # saveData(loadData, filePath_data, filePath_labels)
+    saveData(loadData, filePath_data, filePath_labels)
     
     '''
     trainData = eachFile("../Data/logos/train") #注意：末尾不加/

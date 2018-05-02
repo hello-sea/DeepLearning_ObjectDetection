@@ -90,7 +90,9 @@ def showImg(img, candidates):
     '''
 
 if __name__ == "__main__":
-    path = '../Data/train_LabelData/LabelData/500_0LmA_rVnydZ4z_CDcA8yqW.jpg'
+    # path = '../Data/train_LabelData/LabelData/500_0LmA_rVnydZ4z_CDcA8yqW.jpg'
+    path = '../Data/train_data/LabelData/500_0LmA_rVnydZ4z_CDcA8yqW.jpg'
+    
     img, candidates = mySelectivesearch(path)
     showImg(img, candidates)
 

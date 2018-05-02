@@ -28,6 +28,9 @@ def main(unused_argv):
     eval_data = np.array(pickle.load(open('Model/eval_data.plk', 'rb')) )
     eval_labels = np.array(pickle.load(open('Model/eval_labels.plk', 'rb')) )
 
+    background_data =  np.array(pickle.load(open('Model/background_data.plk', 'rb')) )
+    background_data_labels =  np.array(pickle.load(open('Model/background_data_labels.plk', 'rb')) )
+
     # with tf.Session() as sess:
     #     train_data = tf.convert_to_tensor(train_data_np)
     #     eval_data = tf.convert_to_tensor(eval_data_np)
@@ -45,6 +48,19 @@ def main(unused_argv):
 
 
     # Train the model
+    train_input_fn_background = tf.estimator.inputs.numpy_input_fn(
+        x={"x": background_data},
+        y=background_data_labels,
+        batch_size=50,
+        num_epochs=None,
+        shuffle=True)
+    cnn_classifier.train(
+        input_fn=train_input_fn_background,
+        steps=2000,     # steps=20000,
+        hooks=[logging_hook])
+
+
+    # Train the model
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": train_data},
         y=train_labels,
@@ -53,7 +69,7 @@ def main(unused_argv):
         shuffle=True)
     cnn_classifier.train(
         input_fn=train_input_fn,
-        steps=200,     # steps=20000,
+        steps=50000,     # steps=20000,
         hooks=[logging_hook])
 
     # Evaluate the model and print results
@@ -68,6 +84,6 @@ def main(unused_argv):
 
 if __name__ == "__main__":
     
-    tf.app.run()
+    tf.app.run()  
 
 

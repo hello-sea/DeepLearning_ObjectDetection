@@ -19,7 +19,7 @@ def main(unused_argv):
     predict_data = []
     with tf.Session() as sess:
         for x, y, w, h in candidates:
-            img_data = img[x:x+w,y:y+h]
+            img_data = img[y:y+h, x:x+w]
             data = tf.convert_to_tensor(img_data) # np 转换为 tensor
             # 改变图片尺寸            
             resized = tf.image.resize_images(data, [28, 28], method=0)
