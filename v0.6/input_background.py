@@ -65,7 +65,7 @@ def myFastGFile(py_data):
                 # resized = tf.reshape(resized, [-1]) #最后一维代表通道数目，如果是rgb则为3 
                 # 转为 np类型
                 py_data.data.append(resized.eval())
-                py_data.labels.append( 30 )
+                py_data.labels.append( 31 - 1 )
 
         '''
         # #验证数据转换正确
