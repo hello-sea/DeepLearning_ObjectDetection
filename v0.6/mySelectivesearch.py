@@ -48,11 +48,11 @@ def mySelectivesearch(path):
             # print(r['size'] )
             # continue
 
-        if r['size'] < 50 or r['size']>3000:
-            continue
-
-        # if r['size'] < 50 :
+        # if r['size'] < 10 or r['size']>3000:
         #     continue
+
+        if r['size'] < 3 :
+            continue
         
         # print( r['size'], ":", r['rect'] ) 
 
@@ -63,7 +63,7 @@ def mySelectivesearch(path):
             continue
         if w == 0:
             continue
-        if h < 20 or w < 20:
+        if h < 5 or w < 5:
             continue
         if w / h > 3 or h / w > 3:
             continue
@@ -73,13 +73,13 @@ def mySelectivesearch(path):
 
 def showImg(img, candidates):
     ## draw rectangles on the original image
-    fig, ax = plt.subplots(ncols=1, nrows=1, figsize=(6, 6))
-    ax.imshow(img)
+    fig1, ax1 = plt.subplots(ncols=1, nrows=1, figsize=(6, 6))
+    ax1.imshow(img)
     for x, y, w, h in candidates:
         print(x, y, w, h)
         rect = mpatches.Rectangle(
             (x, y), w, h, fill=False, edgecolor='red', linewidth=1)
-        ax.add_patch(rect)
+        ax1.add_patch(rect)
         
     plt.show()
     '''

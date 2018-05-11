@@ -7,7 +7,7 @@ import tensorflow as tf
 import pickle as pickle # python pkl 文件读写
 
 from cnn_model import cnn_model_fn
-from mySelectivesearch import  mySelectivesearch
+from mySelectivesearch import  mySelectivesearch, showImg
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -38,6 +38,8 @@ def main(unused_argv):
                 candidates.append(j['bbox'])
 
     img, candidates_buf = mySelectivesearch(filePath)
+    showImg(img, candidates_buf)
+
     predict_data = []
     with tf.Session() as sess:
         for x1, y1, x2, y2 in candidates:
@@ -68,6 +70,7 @@ def main(unused_argv):
         num_epochs=1,
         shuffle=False) 
     predict_results = cnn_classifier.predict(input_fn=predict_input_fn)
+    print(type(predict_results))
 
     typeID = []
     typeName = []
