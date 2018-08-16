@@ -11,5 +11,5 @@ ObjectRecognition目标检测与识别—复杂环境下的Logo识别
 ### SelectiveSearch
 ![avatar](./img/[3]SelectiveSearch.png)
 
-### 结果及应用展示
+### 结果及应用展示（概率、Softmax向量）
 ![avatar](./img/[4]识别效果.png)
