@@ -1,7 +1,7 @@
-# ObjectRecognition
-ObjectRecognition目标检测与识别—复杂环境下的Logo识别
+# DeepLearning_ObjectDetection
+Object Detection目标检测与识别—复杂环境下的Logo识别
 
-## 相关 deep learning object detection 推荐
+## 相关 Deep Learning Object Detection 推荐
 
 模型推荐：
 
@@ -39,4 +39,4 @@ ObjectRecognition目标检测与识别—复杂环境下的Logo识别
 ![avatar](./img/[4]识别效果.png)
 
 ## License
-[DeepLearning_ObjectRecognition](https://github.com/hello-sea/DeepLearning_ObjectRecognition/) is provided under the [MIT](https://github.com/hello-sea/DeepLearning_ObjectRecognition/blob/master/LICENSE) License.
+[DeepLearning_ObjectDetection](https://github.com/hello-sea/DeepLearning_ObjectDetection/) is provided under the [MIT](https://github.com/hello-sea/DeepLearning_ObjectDetection/blob/master/LICENSE) License.
