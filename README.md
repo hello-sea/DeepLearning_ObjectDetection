@@ -3,8 +3,6 @@ Object Detection目标检测与识别—复杂环境下的Logo识别
 
 ## 相关 Deep Learning Object Detection 推荐
 
-模型推荐：
-
 - M2Det (2019)
 - RefineDet (2018)
 - **YOLOv3 (2018)**
@@ -18,6 +16,10 @@ Object Detection目标检测与识别—复杂环境下的Logo识别
 - **Faster R-CNN (2015)**
 - Faste R-CNN (2015)
 - R-CNN （2013）
+
+---
+
+# 复杂环境下的Logo识别
 
 
 ## 依赖
@@ -39,4 +41,4 @@ Object Detection目标检测与识别—复杂环境下的Logo识别
 ![avatar](./img/[4]识别效果.png)
 
 ## License
-[DeepLearning_ObjectDetection](https://github.com/hello-sea/DeepLearning_ObjectDetection/) is provided under the [MIT](https://github.com/hello-sea/DeepLearning_ObjectDetection/blob/master/LICENSE) License.
+[MIT](./LICENSE)
