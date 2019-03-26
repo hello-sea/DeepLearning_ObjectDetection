@@ -40,5 +40,5 @@ Object Detection目标检测与识别—复杂环境下的Logo识别
 ### 结果及应用展示（概率、Softmax向量）
 ![avatar](./img/[4]识别效果.png)
 
-## License
+# License
 [MIT](./LICENSE)
